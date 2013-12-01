@@ -1,3 +1,9 @@
+
+/*
+MOTU in -  Server.default.options.inDevice_("MOTU UltraLite")
+Soundflower out - Server.default.options.outDevice_("Soundflower (2ch)")
+*/
+
 (
 
 var w;
@@ -32,7 +38,7 @@ string= Array.fill(num);
 slider= Array.fill(num);
 
 //Create GUI window
-w = Window.new("BBCut2Slizzzerp", 500@(30*num));
+w = Window.new("Clicksncuts", 500@(30*num));
 
 //Fill with defaults. This array will hold the updated last value of any GUI element
 lastval= Array.fill(num, {arg i; data.at(i).at(4);});
