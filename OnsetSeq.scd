@@ -1,6 +1,6 @@
 //OnsetSeq - Uses onset detection to trigger steps in sequencer
 
-
+//First allocate buffer and load synthDef
 (
 b = Buffer.alloc(s, 1024);
 
@@ -27,11 +27,11 @@ var sig, chain, onsets, demand, sound;
 
 
 	//Out.ar([0,1],((sound)));
-	Out.ar([0,1],((sound*SinOsc.ar(demand))));
+	//Out.ar([0,1],((sound*SinOsc.ar(demand))));
 
 //some code for UGens - the sort of thing that went inside {}.play before
 
-Out.ar([0,1],((sound))) //finaloutput is the final result UGen you want to hear
+Out.ar([0,1],((sound*SinOsc.ar(demand)))) //finaloutput is the final result UGen you want to hear
 
 }).send(s)
 )
@@ -46,32 +46,36 @@ OSCdef(\fader1, {
 	arg msg;
 	a.set(\s1,msg[1]);
 }, "/1/fader1");
+);
 
-
+(
 OSCdef(\fader2, {
 	arg msg;
 	a.set(\s2,msg[1]);
 }, "/1/fader2");
+);
 
-
-
+(
 OSCdef(\fader3, {
 	arg msg;
 	a.set(\s3,msg[1]);
 }, "/1/fader3");
+);
 
+(
 OSCdef(\fader4, {
 	arg msg;
 	a.set(\s4,msg[1]);
 }, "/1/fader4");
-)
+);
 
-
+(
 OSCdef(\fader5, {
 	arg msg;
 	a.set(\s5,msg[1]);
 }, "/1/fader5");
 	);
+
 (
 OSCdef(\fader6, {
 	arg msg;
@@ -106,6 +110,7 @@ OSCdef(\fader10, {
 	a.set(\s10,msg[1]);
 }, "/1/fader10");
 	);
+
 (
 OSCdef(\fader11, {
 	arg msg;
@@ -133,7 +138,6 @@ OSCdef(\fader14, {
 	a.set(\s14,msg[1]);
 }, "/1/fader14");
 	);
-
 
 (
 OSCdef(\fader15, {
