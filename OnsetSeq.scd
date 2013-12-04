@@ -35,6 +35,8 @@ Out.ar([0,1],((sound))) //finaloutput is the final result UGen you want to hear
 
 }).send(s)
 )
+)
+
 
 
 ///LOAD OSCdefs individually, UGH
@@ -45,8 +47,6 @@ OSCdef(\fader1, {
 	a.set(\s1,msg[2]);
 }, "/1/fader1");
 	);
-
-
 (
 OSCdef(\fader2, {
 	arg msg;
