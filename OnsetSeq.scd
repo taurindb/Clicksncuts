@@ -24,9 +24,10 @@ var sig, chain, onsets, demand, sound;
 	demand.poll;
 
 	sound = (MoogFF.ar(sig ,demand*50,3.5)); //Insert any Ugen here
-	//sound= SinGrain.ar(onsets,1,demand,0.2);
 
-	Out.ar([0,1],((sound)));
+
+	//Out.ar([0,1],((sound)));
+	Out.ar([0,1],((sound*SinOsc.ar(demand))));
 
 //some code for UGens - the sort of thing that went inside {}.play before
 
@@ -36,59 +37,123 @@ Out.ar([0,1],((sound))) //finaloutput is the final result UGen you want to hear
 )
 
 
-(
-OSCdef(\touchlistener, {
-	arg msg;
-	a.set(\s1,msg[1]);
-}, "/1/fader1");
-	)
-
-
-a = Synth(\OnsetSeq);
-
-
-
-
-
-
-//////////////////////
-
-//a = Synth(\OnsetSeq, [\s1, 88]); //inputval1 is the constant
+///LOAD OSCdefs individually, UGH
 
 (
 OSCdef(\fader1, {
 	arg msg;
-	a.set(s1, msg[1]);
+	a.set(\s1,msg[2]);
 }, "/1/fader1");
-	)
+	);
+
 
 (
 OSCdef(\fader2, {
 	arg msg;
-	a.set(s2, msg[1]);
+	a.set(\s2,msg[1]);
 }, "/1/fader2");
-	)
+	);
+
+(
+OSCdef(\fader3, {
+	arg msg;
+	a.set(\s3,msg[1]);
+}, "/1/fader3");
+	);
+
+(
+OSCdef(\fader4, {
+	arg msg;
+	a.set(\s4,msg[1]);
+}, "/1/fader4");
+	);
+
+(
+OSCdef(\fader5, {
+	arg msg;
+	a.set(\s5,msg[1]);
+}, "/1/fader5");
+	);
+(
+OSCdef(\fader6, {
+	arg msg;
+	a.set(\s6,msg[1]);
+}, "/1/fader6");
+	);
+
+(
+OSCdef(\fader7, {
+	arg msg;
+	a.set(\s7,msg[1]);
+}, "/1/fader7");
+	);
+
+(
+OSCdef(\fader8, {
+	arg msg;
+	a.set(\s8,msg[1]);
+}, "/1/fader8");
+	);
+
+(
+OSCdef(\fader9, {
+	arg msg;
+	a.set(\s9,msg[1]);
+}, "/1/fader9");
+	);
+
+(
+OSCdef(\fader10, {
+	arg msg;
+	a.set(\s10,msg[1]);
+}, "/1/fader10");
+	);
+(
+OSCdef(\fader11, {
+	arg msg;
+	a.set(\s11,msg[1]);
+}, "/1/fader11");
+	);
+
+(
+OSCdef(\fader12, {
+	arg msg;
+	a.set(\s12,msg[1]);
+}, "/1/fader12");
+	);
+
+(
+OSCdef(\fader13, {
+	arg msg;
+	a.set(\s13,msg[1]);
+}, "/1/fader13");
+	);
+
+(
+OSCdef(\fader14, {
+	arg msg;
+	a.set(\s14,msg[1]);
+}, "/1/fader14");
+	);
+
+
+(
+OSCdef(\fader15, {
+	arg msg;
+	a.set(\s15,msg[1]);
+}, "/1/fader15");
+	);
+
+(
+OSCdef(\fader16, {
+	arg msg;
+	a.set(\s16,msg[1]);
+}, "/1/fader16");
+	);
+)
+
+//Load Synth
+a = Synth(\OnsetSeq);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-//Computer Recieve
-o = OSCresponder(nil, '/1’, {arg time, responder, msg, addr;
-	//[addr.addr, addr.port].postln;
-	msg.postln;
-	a.set(\fader1,msg[1]);
-}).add;
-
-
-o.remove;
