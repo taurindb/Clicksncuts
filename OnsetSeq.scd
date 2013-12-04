@@ -44,31 +44,29 @@ Out.ar([0,1],((sound))) //finaloutput is the final result UGen you want to hear
 (
 OSCdef(\fader1, {
 	arg msg;
-	a.set(\s1,msg[2]);
+	a.set(\s1,msg[1]);
 }, "/1/fader1");
-	);
-(
+
+
 OSCdef(\fader2, {
 	arg msg;
 	a.set(\s2,msg[1]);
 }, "/1/fader2");
-	);
 
-(
+
+
 OSCdef(\fader3, {
 	arg msg;
 	a.set(\s3,msg[1]);
 }, "/1/fader3");
-	);
 
-(
 OSCdef(\fader4, {
 	arg msg;
 	a.set(\s4,msg[1]);
 }, "/1/fader4");
-	);
+)
 
-(
+
 OSCdef(\fader5, {
 	arg msg;
 	a.set(\s5,msg[1]);
