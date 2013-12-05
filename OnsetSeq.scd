@@ -1,13 +1,13 @@
 //OnsetSeq - Uses onset detection to trigger steps in sequencer
 
-//littlechange
-
 //First allocate buffer and load synthDef
 (
 b = Buffer.alloc(s, 1024);
 
 (
-SynthDef(\OnsetSeq,{arg s1=50,s2=25,s3=14,s4=120,s5=10,s6=60,s7=3,s8=50; //any arguments go here
+SynthDef(\OnsetSeq,{
+	arg s1=50,s2=25,s3=14,s4=120,s5=10,s6=60,s7=3,s8=50,
+	s9=30,s10=100,s11=80,s12=50,s13=10,s14=24,s15=60,s16=7;//any arguments go here
 
 var sig, chain, onsets, demand, sound;
 
@@ -21,7 +21,7 @@ var sig, chain, onsets, demand, sound;
 	//move sequence along when onset detected
 	demand = Demand.kr(Trig1.kr(onsets,0.01), 0,
 	//long Dseq sounds generative, but it isn't, bonus!
-		Dseq([s1,s2,s3,s4,s5,s6,s7,s8],inf));
+		Dseq([s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16],inf));
 	//demand = Stepper.kr(onsets,0,1,8)*200; //different ways to step
 	demand.poll;
 
@@ -31,134 +31,52 @@ var sig, chain, onsets, demand, sound;
 	//Out.ar([0,1],((sound)));
 	//Out.ar([0,1],((sound*SinOsc.ar(demand))));
 
-//some code for UGens - the sort of thing that went inside {}.play before
-
 Out.ar([0,1],((sound*SinOsc.ar(demand)))) //finaloutput is the final result UGen you want to hear
 
 }).send(s)
 )
 )
 
-
-
-///LOAD OSCdefs individually, UGH
-//Mebbe add a routine to load the OSCdefs
-
+c = Synth(\OnsetSeq);
 (
-OSCdef(\fader1, {
-	arg msg;
-	a.set(\s1,msg[1]);
-}, "/1/fader1");
-);
+~setFunc = {|synth, argName, val| // read the "Control Structure" help file for more on using swtch
+	switch (argName,
+		{\s1}, {synth.set(argName, val)},
+		{\s2}, {synth.set(argName, val)},
+		{\s3}, {synth.set(argName, val)},
+		{\s4}, {synth.set(argName, val)},
+		{\s5}, {synth.set(argName, val)},
+		{\s6}, {synth.set(argName, val)},
+		{\s7}, {synth.set(argName, val)},
+		{\s8}, {synth.set(argName, val)},
+		{\s9}, {synth.set(argName, val)},
+		{\s10}, {synth.set(argName, val)},
+		{\s11}, {synth.set(argName, val)},
+		{\s12}, {synth.set(argName, val)},
+		{\s13}, {synth.set(argName, val)},
+		{\s14}, {synth.set(argName, val)},
+		{\s15}, {synth.set(argName, val)},
+		{\s16}, {synth.set(argName, val)},
 
-(
-OSCdef(\fader2, {
-	arg msg;
-	a.set(\s2,msg[1]);
-}, "/1/fader2");
-);
-
-(
-OSCdef(\fader3, {
-	arg msg;
-	a.set(\s3,msg[1]);
-}, "/1/fader3");
-);
-
-(
-OSCdef(\fader4, {
-	arg msg;
-	a.set(\s4,msg[1]);
-}, "/1/fader4");
-);
-
-(
-OSCdef(\fader5, {
-	arg msg;
-	a.set(\s5,msg[1]);
-}, "/1/fader5");
 	);
+};
 
-(
-OSCdef(\fader6, {
-	arg msg;
-	a.set(\s6,msg[1]);
-}, "/1/fader6");
-	);
+// make an array of synth argument names
+~argNames = [\s1, \s2, \s3, \s4, \s5, \s6, \s7, \s8, \s9, \s10, \s11, \s12, \s13, \s14, \s15];
 
-(
-OSCdef(\fader7, {
-	arg msg;
-	a.set(\s7,msg[1]);
-}, "/1/fader7");
-	);
+// make another array of osc message names
+~oscMessageNames = Array.fill(16, {|i| i = i + 1; ("/1/multifader1/"++i).asSymbol});
 
-(
-OSCdef(\fader8, {
-	arg msg;
-	a.set(\s8,msg[1]);
-}, "/1/fader8");
-	);
-
-(
-OSCdef(\fader9, {
-	arg msg;
-	a.set(\s9,msg[1]);
-}, "/1/fader9");
-	);
-
-(
-OSCdef(\fader10, {
-	arg msg;
-	a.set(\s10,msg[1]);
-}, "/1/fader10");
-	);
-
-(
-OSCdef(\fader11, {
-	arg msg;
-	a.set(\s11,msg[1]);
-}, "/1/fader11");
-	);
-
-(
-OSCdef(\fader12, {
-	arg msg;
-	a.set(\s12,msg[1]);
-}, "/1/fader12");
-	);
-
-(
-OSCdef(\fader13, {
-	arg msg;
-	a.set(\s13,msg[1]);
-}, "/1/fader13");
-	);
-
-(
-OSCdef(\fader14, {
-	arg msg;
-	a.set(\s14,msg[1]);
-}, "/1/fader14");
-	);
-
-(
-OSCdef(\fader15, {
-	arg msg;
-	a.set(\s15,msg[1]);
-}, "/1/fader15");
-	);
-
-(
-OSCdef(\fader16, {
-	arg msg;
-	a.set(\s16,msg[1]);
-}, "/1/fader16");
-	);
+// now use the two arrays you just made to build all your OSCresponderNodes
+~oscResponders = Array.fill(16, {|i|
+	OSCresponderNode(nil, ~oscMessageNames[i], {|time, resp, msg|
+		msg.postln;
+		~setFunc.value(c, ~argNames[i], msg[1])
+	}).add; // important to .add them!  I forgot this in my last email to you - sorry about that
+});
 )
 
-//Load Synth
-a = Synth(\OnsetSeq);
+
 
 
 
