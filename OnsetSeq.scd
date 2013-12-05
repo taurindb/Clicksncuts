@@ -42,6 +42,7 @@ Out.ar([0,1],((sound*SinOsc.ar(demand)))) //finaloutput is the final result UGen
 
 
 ///LOAD OSCdefs individually, UGH
+//Mebbe add a routine to load the OSCdefs
 
 (
 OSCdef(\fader1, {
