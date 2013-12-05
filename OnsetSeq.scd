@@ -1,5 +1,7 @@
 //OnsetSeq - Uses onset detection to trigger steps in sequencer
 
+Server.default.options.inDevice_("MOTU UltraLite")
+Server.default.options.outDevice_("Soundflower (2ch)")
 //First allocate buffer and load synthDef
 (
 b = Buffer.alloc(s, 1024);
@@ -37,7 +39,7 @@ Out.ar([0,1],((sound*SinOsc.ar(demand)))) //finaloutput is the final result UGen
 )
 )
 
-c = Synth(\OnsetSeq);
+///OSC Responder Array
 (
 ~setFunc = {|synth, argName, val| // read the "Control Structure" help file for more on using swtch
 	switch (argName,
@@ -62,7 +64,7 @@ c = Synth(\OnsetSeq);
 };
 
 // make an array of synth argument names
-~argNames = [\s1, \s2, \s3, \s4, \s5, \s6, \s7, \s8, \s9, \s10, \s11, \s12, \s13, \s14, \s15];
+~argNames = [\s1, \s2, \s3, \s4, \s5, \s6, \s7, \s8, \s9, \s10, \s11, \s12, \s13, \s14, \s15, \s16];
 
 // make another array of osc message names
 ~oscMessageNames = Array.fill(16, {|i| i = i + 1; ("/1/multifader1/"++i).asSymbol});
@@ -76,6 +78,9 @@ c = Synth(\OnsetSeq);
 });
 )
 
+
+//Start the Synth
+c = Synth(\OnsetSeq);
 
 
 
