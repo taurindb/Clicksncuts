@@ -1,5 +1,7 @@
 //OnsetSeq - Uses onset detection to trigger steps in sequencer
 
+//littlechange
+
 //First allocate buffer and load synthDef
 (
 b = Buffer.alloc(s, 1024);
