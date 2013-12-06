@@ -1,5 +1,8 @@
 //OnsetSeq - Uses onset detection to trigger steps in sequencer
 
+//ToDo - Create a variety of presets, this example uses moog filter, need one for algorithmic melody patterns
+       - Look up onset thresholds, how to best implement for different types of sounds
+
 Server.default.options.inDevice_("MOTU UltraLite")
 Server.default.options.outDevice_("Soundflower (2ch)")
 //First allocate buffer and load synthDef
